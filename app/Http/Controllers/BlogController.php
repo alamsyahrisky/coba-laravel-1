@@ -17,13 +17,33 @@ class BlogController extends Controller
         // $blog->save();
 
 
-        //insert mass assigmen
-        Blog::create([
-            'title' => 'halo jakarta',
-            'description' => 'isi dari blog halo jakarta',
-            'created_at' => '0000-00-00 00:00:00',
-            'modified_at' => '0000-00-00 00:00:00',
-        ]);
+        //insert mass assigment
+        // Blog::create([
+        //     'title' => 'halo jakarta',
+        //     'description' => 'isi dari blog halo jakarta',
+        //     'created_at' => '0000-00-00 00:00:00',
+        //     'modified_at' => '0000-00-00 00:00:00',
+        // ]);
+
+
+        //update data
+        // $blog = Blog::where('id',1)->first();
+        // $blog->title = "halo surabaya";
+        // $blog->save();
+
+
+        //update mass assigment
+        // Blog::find(2)->update([
+        //     'title' => 'halo bandung',
+        //     'description' => 'ini detail halo bandung'
+        // ]);
+
+        //delete
+        // $blog = Blog::find(1);
+        // $blog->delete();
+
+        //delete destroy
+        // Blog::destroy([5,6]);
 
         $blogs = Blog::all();
 
@@ -64,6 +84,9 @@ class BlogController extends Controller
 
         $blogs = Blog::find($id);
 
+        if (!$blogs) {
+            dd("not found !");
+        }
 
     	return view('page/single',['blog'=>$blogs]);
     }

@@ -7,7 +7,7 @@
 	<header>
 		<nav>
 			<a href="#">Home</a>
-			<a href="#">Blog</a>
+			<a href="/coba-laravel/public/blog">Blog</a>
 		</nav>
 	</header>
 	<br>
