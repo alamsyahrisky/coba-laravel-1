@@ -12,8 +12,8 @@ class BlogController extends Controller
     {
         //insert biasa
         // $blog = new Blog;
-        // $blog->title = "halo batu";
-        // $blog->description = "ini isi dari halo batu";
+        // $blog->title = "halo surabaya";
+        // $blog->description = "ini isi dari halo surabaya";
         // $blog->save();
 
 
@@ -45,7 +45,21 @@ class BlogController extends Controller
         //delete destroy
         // Blog::destroy([5,6]);
 
-        $blogs = Blog::all();
+        //soft delete
+        // $blog = Blog::find(7);
+        // $blog->delete();
+
+        // show all data with soft delete
+        // $blogs = Blog::withTrashed()->get();
+
+        //restore soft delete
+        // $blog = Blog::withTrashed()->find(7);
+        // $blog->restore();
+
+
+        // $blogs = Blog::all();
+        $blogs = Blog::paginate(10);
+
 
     	return view('page/home',['blogs'=>$blogs]);
     }
@@ -85,9 +99,53 @@ class BlogController extends Controller
         $blogs = Blog::find($id);
 
         if (!$blogs) {
-            dd("not found !");
+            abort(404);
         }
 
     	return view('page/single',['blog'=>$blogs]);
+    }
+
+    public function edit($id){
+        $blogs = Blog::find($id);
+
+        if (!$blogs) {
+            abort(404);
+        }
+
+        return view('page/edit',['blog'=>$blogs]);   
+    }
+
+    public function update(Request $request,$id){
+        $blog               = Blog::find($id);
+        $blog->title        = $request->title;
+        $blog->description  = $request->description;
+        $blog->save();
+
+        return redirect('blog/'.$id);
+    }
+
+    public function create(){
+
+        return view('page/create');
+    }
+    public function store(Request $request){
+        
+        $this->validate($request,[
+            'title' => 'required|min:5',
+            'description' => 'required|min:10'
+        ]);
+        $blog = new Blog;
+        $blog->title = $request->title;
+        $blog->description = $request->description;
+        $blog->save();
+
+        return redirect('blog');
+    }
+
+    public function destroy($id){
+        $blog = Blog::find($id);
+        $blog->delete();
+
+        return redirect('blog');
     }
 }
